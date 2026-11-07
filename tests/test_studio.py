@@ -210,6 +210,38 @@ class StorageTests(unittest.TestCase):
         self.assertFalse(studio.lock.locked())
         self.assertFalse(studio.children)
 
+    def test_automatic_weights_download_then_cache_reuse(self):
+        cache = self.root/'working/private-3d-weights'
+
+        def download(args, **kwargs):
+            self.assertEqual(Path(args[-1]), cache)
+            for rel in CRITICAL:
+                path = cache/rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b'0'*2048)
+
+        with patch('studio.weights.detect', return_value=[]), \
+             patch('studio.weights.subprocess.run', side_effect=download) as downloader:
+            first = prepare(self.root, cache, allow_download=True)
+            second = prepare(self.root, cache, allow_download=True)
+        self.assertEqual(first, cache)
+        self.assertEqual(second, cache)
+        self.assertEqual(downloader.call_count, 1)
+        self.assertTrue((cache/'weights_manifest.json').is_file())
+        self.assertEqual(validate(cache), cache)
+
+    def test_weights_source_can_be_reused_in_place(self):
+        for rel in CRITICAL:
+            path = self.root/rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b'0'*2048)
+        build_manifest(self.root)
+        original = (self.root/CRITICAL[0]).read_bytes()
+        with patch('studio.weights.subprocess.run') as staging:
+            self.assertEqual(prepare(self.root, self.root, dataset=self.root), self.root)
+        staging.assert_not_called()
+        self.assertEqual((self.root/CRITICAL[0]).read_bytes(), original)
+
     def test_staging_invalidates_changed_dataset(self):
         import shutil
         from types import SimpleNamespace

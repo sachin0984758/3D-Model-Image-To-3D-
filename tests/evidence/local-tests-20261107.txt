@@ -1,3 +1,23 @@
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+test_automatic_weights_download_then_cache_reuse (test_studio.StorageTests.test_automatic_weights_download_then_cache_reuse) ... ok
 test_concurrent_checkpoint_exports (test_studio.StorageTests.test_concurrent_checkpoint_exports) ... ok
 test_download_link_is_relative_to_notebook_directory (test_studio.StorageTests.test_download_link_is_relative_to_notebook_directory) ... ok
 test_glb_validation (test_studio.StorageTests.test_glb_validation) ... ok
@@ -8,7 +28,7 @@ test_independent_stage_records_and_checkpoint (test_studio.StorageTests.test_ind
 test_no_gpu_fails_without_launch (test_studio.StorageTests.test_no_gpu_fails_without_launch) ... ok
 test_pbr_validation (test_studio.StorageTests.test_pbr_validation) ... ok
 test_rejects_truncated_glb_without_model_dependencies (test_studio.StorageTests.test_rejects_truncated_glb_without_model_dependencies) ... ok
-No checksum manifest: basic file checks only. Use the weights builder for SHA-256 validation.
+No checksum manifest: basic file checks only.
 Fingerprinting checkpoint: RealESRGAN_x4plus.pth
 Fingerprinting checkpoint: u2net/u2net.onnx
 Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
@@ -40,7 +60,7 @@ Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
 Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
 Verifying checkpoint: facebook/dinov2-giant/model.safetensors
 test_staging_invalidates_changed_dataset (test_studio.StorageTests.test_staging_invalidates_changed_dataset) ... ok
-No checksum manifest: basic file checks only. Use the weights builder for SHA-256 validation.
+No checksum manifest: basic file checks only.
 Fingerprinting checkpoint: RealESRGAN_x4plus.pth
 Fingerprinting checkpoint: u2net/u2net.onnx
 Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
@@ -58,9 +78,23 @@ Verifying checkpoint: u2net/u2net.onnx
 Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
 Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
 test_weights_integrity_and_detection (test_studio.StorageTests.test_weights_integrity_and_detection) ... ok
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+test_weights_source_can_be_reused_in_place (test_studio.StorageTests.test_weights_source_can_be_reused_in_place) ... ok
 test_worker_inference_contract (test_studio.StorageTests.test_worker_inference_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 2.198s
+Ran 14 tests in 2.774s
 
 OK

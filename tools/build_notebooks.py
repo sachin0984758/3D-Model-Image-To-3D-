@@ -61,10 +61,13 @@ print('Setup completed. Restart the kernel if Kaggle asks, then rerun source/pre
 """
 
 WEIGHTS = """from studio.weights import prepare
-DATASET = None  # Optional explicit root containing tencent/, facebook/, u2net/.
-ALLOW_DOWNLOAD = False  # Explicitly opt in only if no private dataset is available.
-WEIGHTS = prepare(APP, dataset=DATASET, allow_download=ALLOW_DOWNLOAD, textures=len(gpu_info()) >= 2)
+DATASET = None  # Attached weights datasets and saved notebook outputs are detected automatically.
+ALLOW_DOWNLOAD = True  # Download missing weights as part of this notebook's setup.
+WEIGHTS_DIR = Path('/kaggle/working/private-3d-weights')
+WEIGHTS = prepare(APP, destination=WEIGHTS_DIR, dataset=DATASET,
+                  allow_download=ALLOW_DOWNLOAD, textures=len(gpu_info()) >= 2)
 print('Validated local weights:', WEIGHTS)
+print('Save this notebook with outputs to reuse downloaded weights in a future session.')
 """
 
 SAVE = """from IPython.display import display
@@ -81,9 +84,9 @@ else:
     print('Generate a model in Studio, then run this cell to download the outputs.')
 """
 
-main = [md('# PRIVATE 3D STUDIO\n\nPrivate notebook application for image-to-3D generation. Keep this notebook and all inputs **Private**.\n\nSelect **GPU T4 x2**, enable Internet for installation, then run cells in order. Attach your private weights dataset before the weights cell. Read the included Tencent license before using the model.\n\nTwo example inputs passed geometry and PBR export validation on T4 x2. Use the optional smoke test to check a changed runtime.'),
+main = [md('# PRIVATE 3D STUDIO\n\nOne notebook for setup, model downloads, image-to-3D generation, preview and ZIP export. Keep this notebook and all inputs **Private**.\n\nSelect **GPU T4 x2**, enable **Internet**, then choose **Run All**. Setup downloads missing weights automatically and reuses the cache or an attached weights dataset. Once the Studio appears, upload an image and click **Generate 3D**.\n\nThe first download needs roughly 18 GiB. Downloaded weights are written to `/kaggle/working/private-3d-weights` so they can be included in saved notebook outputs. Save the outputs to retain them across sessions. Model use follows the included Tencent license.\n\nThe earlier Kaggle run validated two textured models. The latest startup changes need a live Kaggle check.'),
         code(bundle()), md('## Environment'), code(PREFLIGHT), md('## Install and compile'), code(INSTALL),
-        md('## Locate model weights\nRun the weights builder once if you have no weights dataset. Inference workers operate offline.'), code(WEIGHTS),
+        md('## Model weights\nThis cell downloads missing checkpoints and writes their SHA-256 manifest. Completed downloads are reused on later runs. Existing attached weights datasets or saved notebook outputs are detected automatically. Inference workers load these local files.'), code(WEIGHTS),
         md('## Studio\nUpload images through the widget. Generate runs asynchronously; use Refresh dashboard to inspect progress. High settings may OOM on a T4. Geometry is retained when paint fails.'),
         code("""from studio.runner import Studio
 from studio.ui import show
@@ -114,7 +117,7 @@ if RUN_GPU_TEST:
     print(json.dumps(report, indent=2))
     print(export_all(studio.root))
 """),
-        md('## Save your work\nAfter generation, run the cell below and click `generated_models.zip`. You can also use Download All in Studio. In Kaggle Output, find `private_3d_studio/exports/generated_models.zip`. Save a **private** notebook version to retain outputs. To resume in a new session, attach the saved output or a private dataset and copy its `outputs/` folder into `/kaggle/working/private_3d_studio/outputs/` before generating. Upload the same references; completed jobs with identical settings are reused.\n\nFor unattended batch commits, replace interactive uploads with `prepare_image` calls over an explicitly selected private image folder and call `studio.run` directly. Widgets require an interactive session.'),
+        md('## Save your work\nAfter generation, run the cell below and click `generated_models.zip`. You can also use Download All in Studio. In Kaggle Output, find `private_3d_studio/exports/generated_models.zip`.\n\nSave a **private** notebook version with outputs to retain the downloaded `private-3d-weights` folder. To reuse it in a new session, attach that saved notebook output or a private weights dataset through **Add Input**. Setup detects the attached weights.\n\nTo resume generated models, copy the saved `private_3d_studio/outputs/` folder into `/kaggle/working/private_3d_studio/outputs/` before generating. Upload the same references and reuse the same settings.\n\nFor unattended batch commits, replace interactive uploads with `prepare_image` calls over an explicitly selected private image folder and call `studio.run` directly. Widgets require an interactive session.'),
         code(SAVE)]
 
 builder = [md('# PRIVATE 3D STUDIO — weights builder\n\nKeep **Private**. Use **no accelerator** and enable Internet. Run this notebook once, save a completed version, then create a **Private** dataset from the `private-3d-weights` output folder. You must create/confirm dataset visibility in Kaggle; the notebook cannot enforce it. Requires roughly 18 GB; actual size is printed.'),

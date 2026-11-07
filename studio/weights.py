@@ -47,7 +47,7 @@ def validate(root, textures=True, verify_hashes=True):
             if not p.is_file() or p.stat().st_size != info['bytes'] or digest(p) != info['sha256']:
                 raise ValueError('Checkpoint checksum mismatch: ' + rel)
     elif not manifest.exists():
-        print('No checksum manifest: basic file checks only. Use the weights builder for SHA-256 validation.')
+        print('No checksum manifest: basic file checks only.')
     return root
 
 
@@ -76,11 +76,14 @@ def prepare(app_root, destination='/tmp/private-3d-weights', dataset=None, allow
     if source:
         # Dataset reads are slow: check headers now, hash after parallel local staging.
         validate(source, textures=textures, verify_hashes=False)
+        if source.resolve() == destination.resolve():
+            return validate(source, textures=textures)
+        destination.parent.mkdir(parents=True, exist_ok=True)
         manifest = source/'weights_manifest.json'
         provenance = dict(source=str(source.resolve()), manifest_sha256=digest(manifest) if manifest.exists() else None,
                           critical={rel: [int((source/rel).stat().st_size), int((source/rel).stat().st_mtime_ns)]
                                     for rel in (CRITICAL if textures else CRITICAL[:3])})
-        if shutil.disk_usage('/tmp').free > sum(p.stat().st_size for p in source.rglob('*') if p.is_file()) + (5 << 30):
+        if shutil.disk_usage(destination.parent).free > sum(p.stat().st_size for p in source.rglob('*') if p.is_file()) + (5 << 30):
             provenance_path = destination/'stage_provenance.json'
             prior = json.loads(provenance_path.read_text()) if provenance_path.exists() else None
             if not (destination/'_STAGED').exists() or prior != provenance:

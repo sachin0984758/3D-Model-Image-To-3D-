@@ -8,7 +8,6 @@ nb = json.loads((root/'private_3d_studio.ipynb').read_text())
 for cell in nb['cells']:
     text = ''.join(cell['source'])
     if cell['cell_type'] == 'code':
-        text = text.replace('ALLOW_DOWNLOAD = False', 'ALLOW_DOWNLOAD = True')
         text = text.replace('RUN_GPU_TEST = False', 'RUN_GPU_TEST = True')
         cell['source'] = text.splitlines(True)
 intro = nb['cells'][0]

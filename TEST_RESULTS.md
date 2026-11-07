@@ -13,7 +13,7 @@ Both shape and paint workers recorded completion for each image. The Kaggle vali
 
 Each model's file list includes `white_mesh.glb`, `textured_mesh.glb`, OBJ geometry and separate color, metallic and roughness images. The final cell linked `/kaggle/working/private_3d_studio/exports/generated_models.zip`. The notebook contains run records and a link. Inspecting the models visually requires the actual GLBs.
 
-The extracted [saved run report](tests/evidence/studio_saved_run_report.json) includes the source notebook's SHA-256. The current project has later weight-staging, download, installation and retry fixes. The run used temporary weights and did not exercise those changes or establish that a private weights dataset was saved.
+The extracted [saved run report](tests/evidence/studio_saved_run_report.json) includes the source notebook's SHA-256. The current project has later weight-staging, download, installation, retry and startup changes. The run used temporary weights and did not exercise those changes or establish that a private weights dataset was saved.
 
 ## Changes checked locally on 2026-11-07
 
@@ -21,8 +21,10 @@ The extracted [saved run report](tests/evidence/studio_saved_run_report.json) in
 - The installer fetches the tested runtime commit directly. Its earlier shallow clone followed the moving default branch before checking the pinned revision.
 - Incomplete GLB exports trigger regeneration or repainting on retry. Geometry reuse also checks the OBJ triangle count and saved input image. Valid completed stages retain their validation records and original timing.
 - Concurrent ZIP requests are serialized and use unique temporary files. Transient JSON files are excluded from metadata listings and archives.
+- The main notebook now handles setup, downloads, generation and exports in one workflow. Missing weights download automatically into `/kaggle/working/private-3d-weights`, which can be included in saved notebook outputs. Existing cache files and attached weight folders are reused. The weights builder is an optional CPU-only helper.
+- Weight staging checks free space on the cache destination's filesystem. Reusing a weights folder in place preserves its files.
 
-All **12 CPU tests passed with no skips**. Synthetic fixtures exercised both worker job loops without loading GPU models. Local widget callbacks passed upload, quality-preset and ZIP export checks. The latest notebooks passed schema validation, cell compilation and embedded-source comparison.
+All **14 CPU tests passed with no skips**. Synthetic fixtures exercised both worker job loops without loading GPU models. The main notebook's actual weights cell also passed first-download, repeat-run cache reuse and attached-output staging checks using tiny synthetic checkpoint files. Local widget callbacks passed upload, quality-preset and ZIP export checks. The latest notebooks passed schema validation, cell compilation and embedded-source comparison.
 
 The latest fixes still require a Kaggle run. This Windows sandbox blocks Git Bash from starting, so the changed installer could not be executed locally. Browser rendering, model appearance and persistent-dataset reuse remain open.
 

@@ -1,37 +1,35 @@
 # PRIVATE 3D STUDIO
 
-A private, notebook-based image-to-3D application using the existing Hunyuan3D-2.1 Kaggle worker implementation. Geometry runs in a separate process on GPU 0; PBR paint runs on GPU 1, started only after a geometry job is queued. One-GPU sessions use geometry only. No public server or tunnel is created.
+One self-contained Kaggle notebook for installing Hunyuan3D-2.1, downloading or reusing model weights, generating textured 3D meshes, previewing results and exporting a ZIP. Geometry runs on GPU 0 and PBR painting runs on GPU 1.
 
 ## Notebooks
 
 | Notebook | Description | Kaggle | Colab | Lightning AI | Hugging Face | Video |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|
-| [**PRIVATE 3D STUDIO**](private_3d_studio.ipynb) | Hunyuan3D-2.1 image-to-3D studio with PBR textures, image uploads, batch queues, preview controls, GLB/OBJ files and ZIP export. Uses **T4 x2** for geometry and painting. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
-| [**Weights Builder**](private_3d_weights_builder.ipynb) | Downloads the checkpoints and writes a SHA-256 integrity manifest. Run on **CPU**, then save the output as a private Kaggle dataset for future sessions. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
-| [**GPU Validation**](private_3d_studio_validation.ipynb) | Runs CPU checks and a two-image geometry/PBR batch on **T4 x2**. Records generation times, peak VRAM, mesh checks and texture validation, then exports the results. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
+| [**PRIVATE 3D STUDIO**](private_3d_studio.ipynb) | All-in-one Hunyuan3D-2.1 studio. Installs the runtime, downloads missing checkpoints, reuses cached weights, accepts image uploads and generates geometry with PBR textures on **T4 x2**. Includes preview controls and GLB/OBJ/ZIP downloads. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
 
-The Kaggle badges open a new notebook. Download the chosen `.ipynb` from its notebook link, then select **File > Import Notebook** in Kaggle. The Hugging Face badges open the official model repository.
+The Kaggle badge opens a new notebook. Download the linked `.ipynb`, then select **File > Import Notebook** in Kaggle.
 
 ## Quick start
 
-1. Run **Weights Builder** with Internet enabled and no accelerator. Save the completed output as a **Private** dataset.
-2. Import **PRIVATE 3D STUDIO**, choose **GPU T4 x2**, enable Internet for setup and attach the weights dataset through **Add Input**.
-3. Run the setup cells, upload an image and select **Generate 3D**. Start with Medium geometry and six texture views at 512.
-4. Open **Preview / downloads** or run the final **Save your work** cell, then download `generated_models.zip`.
+1. Import **private_3d_studio.ipynb** into a **Private** Kaggle notebook.
+2. Choose **GPU T4 x2**, enable **Internet**, then click **Run All**.
+3. Wait for setup and the initial model download. Upload an image in **Studio** and click **Generate 3D**.
+4. Use **Preview / downloads** or **Download All / checkpoint** to download `generated_models.zip`.
 
-Use **GPU Validation** to run the two-image test. It automatically downloads missing checkpoints and starts real generation when its cells run.
+The first run downloads roughly 18 GiB of weights automatically. Subsequent runs reuse the cache or an attached weights dataset. Save the notebook with outputs to retain the downloaded `private-3d-weights` folder, then attach that saved output through **Add Input** in a future session.
 
 ## Validation
 
-The saved validation run on two Kaggle T4s generated two textured GLBs. Both had 40,000 faces and passed the embedded PBR texture checks. The current notebooks include relative download links, retries for incomplete exports and a final download cell. Twelve local tests passed. Live preview, browser download and reuse of a persistent weights dataset still need verification. The saved GPU run predates the latest fixes. See [the per-image results](TEST_RESULTS.md).
+The saved validation run on two Kaggle T4s generated two textured GLBs. Both had 40,000 faces and passed the embedded PBR texture checks. The current notebook includes automatic weight downloads, cache reuse, relative download links, retries for incomplete exports and a final download cell. Fourteen local tests passed. Live preview, browser download and the revised startup still need a Kaggle check. The saved GPU run predates the latest changes. See [the per-image results](TEST_RESULTS.md).
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
 | `private_3d_studio.ipynb` | Main application, with embedded source |
-| `private_3d_weights_builder.ipynb` | One-time downloads and checksum manifest |
-| `private_3d_studio_validation.ipynb` | Explicit validation run: downloads permitted, CPU tests, two real image jobs; consumes GPU quota |
+| `private_3d_weights_builder.ipynb` | Optional CPU-only checkpoint preparation helper |
+| `private_3d_studio_validation.ipynb` | Developer validation with CPU tests and two real image jobs |
 | `studio/` | Image validation, weights, worker controller, notebook UI, preview and exports |
 | `workers/` | Adapted shape/paint workers, upstream installer, downloader and fast staging |
 | `tests/` | CPU-only validation; synthetic fixtures are not inference results |
@@ -39,16 +37,15 @@ The saved validation run on two Kaggle T4s generated two textured GLBs. Both had
 | `upstream/` | Retained original source notebooks and generator |
 | `LICENSE`, `NOTICE`, `TENCENT_LICENSE.txt` | Attribution and applicable license terms |
 
-## 1. Build your private weights dataset once
+## 1. Model weights in the same notebook
 
-1. Open Kaggle and create a notebook. Use **File > Import Notebook** (some editor versions call this **Open/Upload Notebook**) and choose `private_3d_weights_builder.ipynb`.
-2. Check notebook visibility is **Private**. Select **no accelerator** and turn Internet on.
-3. Run all cells. This downloads the official shape, paint, DINOv2, RealESRGAN and U2Net files. It prints actual sizes and writes `weights_manifest.json` with SHA-256 hashes. The manifest detects later corruption; it is not a vendor signature.
-4. Choose **Save Version > Save & Run All**. Wait for a successful saved run.
-5. From the saved version's output, create a dataset containing `private-3d-weights`. Set visibility to **Private** before saving. Name it `private-hunyuan3d-weights` or any personal name.
-6. Keep the builder output below Kaggle's displayed output limit. Upstream estimates about 17.8 GB of model files; the actual output size is authoritative.
+The main notebook handles downloads, integrity manifests and generation. It caches downloaded files in `/kaggle/working/private-3d-weights`. An attached private weights dataset or saved notebook output is detected automatically. Set `DATASET` in the weights cell only when selecting among several attached weight sources.
 
-Expected root inside the dataset:
+Weights in a running session remain temporary until you save them. Save a **Private** notebook version with outputs to retain the cache. In a future session, attach that saved output through **Add Input**. You can also create a private dataset from its weights folder.
+
+The optional CPU-only weights builder can prepare a reusable dataset while using CPU resources. The main notebook provides its own download and manifest steps.
+
+The weights folder uses this layout.
 
 ```text
 tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/
@@ -65,9 +62,9 @@ The studio detects nested Kaggle mount roots. If multiple model datasets are att
 
 1. Import `private_3d_studio.ipynb`. Check **Private** visibility.
 2. Select **Settings > Accelerator > GPU T4 x2**. Phone verification and remaining quota are required. Turn Internet on for installation and viewer-code download.
-3. Attach your private weights dataset with **Add Input > Your Datasets**.
-4. Run the source, environment, installation, weights and studio cells in order. The installer keeps Kaggle's PyTorch, applies the existing spandrel/optional-Blender fixes, and compiles the C++ inpainter and CUDA rasterizer for the devices in this session. Any failed command stops setup.
-5. `ALLOW_DOWNLOAD` defaults to `False`. If no model dataset is attached, stop and build one, or explicitly set this option to `True` to download into temporary storage. Downloaded temporary weights disappear with the session.
+3. Optionally attach saved weights through **Add Input**. Setup also works with an empty input list.
+4. Click **Run All** to extract the source, check the environment, install the runtime, prepare weights and open Studio. The installer keeps Kaggle's PyTorch, applies the existing spandrel/optional-Blender fixes, and compiles the C++ inpainter and CUDA rasterizer for the devices in this session. Any failed command stops setup.
+5. `ALLOW_DOWNLOAD` defaults to `True`. Setup downloads missing weights and reuses completed files. Set it to `False` when you want setup to require existing weights.
 6. Upload PNG, JPEG or WebP images using the notebook widget. Images stay within your Kaggle session. Use one isolated object per reference. Automatic validation does not identify/count semantic objects; the UI gives an explicit separation warning.
 7. Start with Medium geometry, six views, 512 texture diffusion resolution and one image. Select **Generate 3D**. Logs and GPU readings update periodically. Use **Refresh dashboard** if the widget display lags.
 8. Select a completed model and preview stage, then choose **Preview / downloads**. Rotate by dragging, zoom with the wheel, pan with Shift-drag, and use Reset camera. The GLB is embedded locally; the preview's content policy blocks external connections.
@@ -128,7 +125,7 @@ assert result.wasSuccessful() and not result.skipped
 
 The optional GPU smoke-test cell uses two official example images and the same controller as the UI. Set `RUN_GPU_TEST=True` manually, execute it, inspect `gpu_test_results.json`, and download the output. This consumes GPU quota. A geometry pass requires an actual mesh that reloads with triangles. A PBR pass requires successful paint plus UVs, embedded albedo and metallic/roughness assignments. Visually inspect the resulting GLB in the notebook or Blender as a separate check.
 
-The validation notebook enables downloads and GPU tests by default. The main application keeps these options disabled by default. The earlier eight-test CPU suite passed on Kaggle. The current twelve-test suite passed locally, including incomplete-export retries, relative download links, concurrent ZIP exports and staging-cache invalidation. Its Kaggle rerun is pending. See `TEST_RESULTS.md`.
+The main notebook downloads missing weights automatically. Its optional GPU smoke test starts when you set `RUN_GPU_TEST=True`. The developer validation notebook enables that test by default. The earlier eight-test CPU suite passed on Kaggle. The current local suite covers automatic weight downloads and cache reuse, incomplete-export retries, relative download links, concurrent ZIP exports and staging-cache invalidation. Its Kaggle rerun is pending. See `TEST_RESULTS.md`.
 
 To inspect an already executed validation run without consuming GPU time, download its notebook with cell outputs using Kaggle's **File > Download Notebook**, then run:
 
@@ -145,7 +142,7 @@ For an unattended batch commit, replace widget uploads with explicit `prepare_im
 - **No GPUs / exhausted quota:** stop and choose a supported accelerator when Kaggle permits it. Do not run this model on the local 4 GB GPU.
 - **One GPU:** geometry-only mode. The two T4 memories are never combined into a shared 32 GB allocation.
 - **OOM:** lower octree/face count or disable textures. For paint try six views and 256 resolution. No automatic quality-changing retry is performed, and High is not guaranteed to fit. The upstream precision and inference behavior are retained.
-- **Weights missing/corrupt:** rerun the builder or attach the correct private dataset. A manifest mismatch stops loading. Legacy datasets without a manifest receive only basic integrity checks.
+- **Weights missing/corrupt:** rerun the main weights cell to finish missing downloads, or attach a valid saved weights folder. A manifest mismatch stops loading. Legacy datasets without a manifest receive basic integrity checks.
 - **Installer conflict messages:** Kaggle includes unrelated packages. The live test displayed conflicts for Gradio/litellm/dopamine, while required extension/import checks still passed. This application uses ipywidgets rather than Gradio. A failed required import is a setup failure and must be fixed, not ignored.
 - **Preview unavailable:** download the GLB. Widget/iframe rendering may differ between Kaggle editor versions; this requires browser verification in your session. The preview does not send your model to a public viewer.
 - **FBX:** not implemented. Import GLB into Blender and export separately if required.
