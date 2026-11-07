@@ -2,6 +2,27 @@
 
 A private, notebook-based image-to-3D application using the existing Hunyuan3D-2.1 Kaggle worker implementation. Geometry runs in a separate process on GPU 0; PBR paint runs on GPU 1, started only after a geometry job is queued. One-GPU sessions use geometry only. No public server or tunnel is created.
 
+## Notebooks
+
+| Notebook | Description | Kaggle | Colab | Lightning AI | Hugging Face | Video |
+|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| [**PRIVATE 3D STUDIO**](private_3d_studio.ipynb) | Hunyuan3D-2.1 image-to-3D studio with PBR textures, image uploads, batch queues, preview controls, GLB/OBJ files and ZIP export. Uses **T4 x2** for geometry and painting. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
+| [**Weights Builder**](private_3d_weights_builder.ipynb) | Downloads the checkpoints and writes a SHA-256 integrity manifest. Run on **CPU**, then save the output as a private Kaggle dataset for future sessions. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
+| [**GPU Validation**](private_3d_studio_validation.ipynb) | Runs CPU checks and a two-image geometry/PBR batch on **T4 x2**. Records generation times, peak VRAM, mesh checks and texture validation, then exports the results. | [![Import on Kaggle](https://img.shields.io/badge/Kaggle-Import-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/new) | — | — | [![Model weights](https://img.shields.io/badge/Model-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/tencent/Hunyuan3D-2.1) | — |
+
+The Kaggle badges open a new notebook. Download the chosen `.ipynb` from its notebook link, then select **File > Import Notebook** in Kaggle. The Hugging Face badges open the official model repository.
+
+## Quick start
+
+1. Run **Weights Builder** with Internet enabled and no accelerator. Save the completed output as a **Private** dataset.
+2. Import **PRIVATE 3D STUDIO**, choose **GPU T4 x2**, enable Internet for setup and attach the weights dataset through **Add Input**.
+3. Run the setup cells, upload an image and select **Generate 3D**. Start with Medium geometry and six texture views at 512.
+4. Open **Preview / downloads** or run the final **Save your work** cell, then download `generated_models.zip`.
+
+Use **GPU Validation** to run the two-image test. It automatically downloads missing checkpoints and starts real generation when its cells run.
+
+## Validation
+
 The saved validation run on two Kaggle T4s generated two textured GLBs. Both had 40,000 faces and passed the embedded PBR texture checks. The current notebooks include relative download links, retries for incomplete exports and a final download cell. Twelve local tests passed. Live preview, browser download and reuse of a persistent weights dataset still need verification. The saved GPU run predates the latest fixes. See [the per-image results](TEST_RESULTS.md).
 
 ## Files
