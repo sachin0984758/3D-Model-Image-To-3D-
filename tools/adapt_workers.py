@@ -36,7 +36,15 @@ for name, key in [('shape_worker.py', 'SHAPE_WORKER_PY'), ('paint_worker.py', 'P
                 continue
 ''' + text[end:]
         text = text.replace('if image.mode != "RGBA" or cfg["force_rembg"]:',
-            'if image.mode != "RGBA" or image.getchannel("A").getextrema() == (255, 255) or cfg["force_rembg"]:')
+            'if cfg.get("remove_background", True) and (image.mode != "RGBA" or '
+            'image.getchannel("A").getextrema() == (255, 255) or cfg["force_rembg"]):')
+        start = text.index('pipe = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(')
+        end = text.index('rembg = BackgroundRemover()', start)
+        loading = text[start:end]
+        text = text[:start] + ('original_dtype = torch.get_default_dtype()\n'
+            'try:\n    torch.set_default_dtype(torch.float16)\n'
+            + ''.join('    '+line if line.strip() else line for line in loading.splitlines(True))
+            + 'finally:\n    torch.set_default_dtype(original_dtype)\n') + text[end:]
         text = text.replace('        image.save(', '        image = center_image(image)\n        image.save(', 1)
         text = text.replace('        enqueue({"name": name, "dir": out})\n    except Exception:',
             '        validation = validate_glb(os.path.join(out, "white_mesh.glb"))\n'

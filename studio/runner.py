@@ -12,7 +12,7 @@ from .storage import atomic_json, metadata, validate_glb, export_all
 
 DEFAULTS = dict(steps=30, guidance_scale=5.0, octree_resolution=256, num_chunks=8000,
                 seed=1234, max_faces=40000, texture_views=6, texture_resolution=512,
-                force_rembg=False, skip_existing=True, textures=True)
+                force_rembg=False, remove_background=True, skip_existing=True, textures=True)
 PRESETS = {'Low': dict(steps=20, octree_resolution=192, max_faces=20000),
            'Medium': dict(steps=30, octree_resolution=256, max_faces=40000),
            'High': dict(steps=40, octree_resolution=320, max_faces=80000)}
@@ -69,20 +69,20 @@ class Studio:
         cfg = dict(DEFAULTS, **(settings or {}))
         devices = gpu_info()
         if not devices:
-            raise RuntimeError('No NVIDIA GPU. Select GPU T4 x2 and start the Kaggle session.')
-        if cfg['textures'] and len(devices) < 2:
-            cfg['textures'] = False
-            progress('One GPU detected: geometry-only mode. Texturing is disabled.')
+            raise RuntimeError('No NVIDIA GPU. Enable a GPU runtime in Kaggle or Colab.')
+        paint_gpu = 1 if len(devices) > 1 else 0
+        if cfg['textures'] and paint_gpu == 0:
+            progress('One GPU detected. Geometry will finish before the paint worker starts.')
         if not (1 <= cfg['steps'] <= 60 and 128 <= cfg['octree_resolution'] <= 320 and
                 1000 <= cfg['max_faces'] <= 80000 and 0 <= cfg['seed'] <= 2**32-1 and
-                0 <= cfg['guidance_scale'] <= 15):
+                0 <= cfg['guidance_scale'] <= 15 and 500 <= cfg['num_chunks'] <= 16000):
             raise ValueError('Settings exceed the conservative T4 limits.')
         if cfg['texture_resolution'] not in (256, 512) or cfg['texture_views'] not in (6, 8):
             raise ValueError('Unsupported texture configuration.')
         if float(devices[0]['total_mb']) < 14000 or float(devices[0]['total_mb']) - float(devices[0]['used_mb']) < 10000:
             raise RuntimeError('Insufficient free GPU memory. Stop other workloads and retry.')
-        if cfg['textures'] and float(devices[1]['total_mb']) - float(devices[1]['used_mb']) < 10000:
-            raise RuntimeError('Paint GPU has less than 10 GB free; disable textures or free GPU 1.')
+        if cfg['textures'] and float(devices[paint_gpu]['total_mb']) - float(devices[paint_gpu]['used_mb']) < 10000:
+            raise RuntimeError('The paint GPU has less than 10 GB free. Free GPU memory and retry.')
         queue = self.root/'runs'/uuid.uuid4().hex
         queue.mkdir()
         cfg.update(repo=str(self.repo), queue=str(queue), out=str(self.root/'outputs'), weights=str(self.weights))
@@ -90,7 +90,8 @@ class Studio:
         existing = self.jobs()
         for image in images:
             # Identity includes settings, so adjusting quality never overwrites an old model.
-            prior = next((j for j in existing if j['input']['sha256'] == image['sha256'] and j['settings'] == {k: cfg[k] for k in DEFAULTS}), None)
+            prior = next((j for j in existing if j['input']['sha256'] == image['sha256']
+                          and dict(DEFAULTS, **j['settings']) == {k: cfg[k] for k in DEFAULTS}), None)
             if prior:
                 name = prior['name']
             else:
@@ -135,8 +136,9 @@ class Studio:
                 raise TimeoutError('Batch exceeded four hours. Intermediate work is preserved.')
             if shape.poll() is not None:
                 (queue/'_SHAPE_DONE').touch()
-            if cfg['textures'] and paint is None and list(queue.glob('*.json')):
-                paint = launch('paint', 1)
+            if (cfg['textures'] and paint is None and list(queue.glob('*.json'))
+                    and (paint_gpu != 0 or shape.poll() is not None)):
+                paint = launch('paint', paint_gpu)
             if shape.poll() is not None and (paint is None or paint.poll() is not None):
                 break
             if time.monotonic()-last_report > 15:

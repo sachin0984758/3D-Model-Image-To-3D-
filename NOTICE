@@ -1,9 +1,10 @@
-PRIVATE 3D STUDIO is a personal adaptation of the MIT-licensed notebook implementation:
+Private 3D Studio is a personal adaptation of the MIT-licensed notebook implementation:
 https://github.com/Gaurav-Kumar98/hunyuan3d-2.1-kaggle
 Source revision b06a56a42b73257d31e877bcdf2106613177cd6a.
 Original notebook code copyright (c) 2026 Gaurav Kumar. See LICENSE.
 Modifications: notebook UI, local validation, job persistence, worker status records,
-deferred paint startup, single-GPU geometry-only mode, export checks and packaging.
+deferred paint startup, sequential single-GPU painting, Colab support, reduced-memory
+checkpoint loading, texture-preserving simplification, export checks and packaging.
 
 Tencent Hunyuan 3D 2.1 is licensed under the Tencent Hunyuan 3D 2.1 Community
 License Agreement, Copyright © 2025 Tencent. All Rights Reserved. The trademark

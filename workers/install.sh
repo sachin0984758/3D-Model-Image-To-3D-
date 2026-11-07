@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Hunyuan3D 2.1 on top of Kaggle's preinstalled PyTorch (no torch reinstall).
+# Installs Hunyuan3D 2.1 using the notebook runtime's existing PyTorch.
 set -euo pipefail
 PY=${PY:-python}
 REPO=${REPO:-/tmp/Hunyuan3D-2.1}
@@ -21,6 +21,26 @@ fi
 [ "$(git rev-parse HEAD)" = "$EXPECTED_REV" ] || { echo "Unexpected runtime revision. Expected $EXPECTED_REV; use a fresh checkout at that commit."; exit 1; }
 "$PY" -c "import sys, torch; print('python', sys.version.split()[0], '| torch', torch.__version__, '| cuda', torch.version.cuda)"
 
+# Some Colab images omit the shared libraries used by MeshLab's plugins.
+if ! "$PY" - <<'PYSYSTEM'
+import ctypes
+import sys
+missing = []
+for library in ('libGL.so.1', 'libOpenGL.so.0', 'libEGL.so.1'):
+    try:
+        ctypes.CDLL(library)
+    except OSError:
+        missing.append(library)
+if missing:
+    print('Installing missing graphics libraries:', ', '.join(missing))
+sys.exit(bool(missing))
+PYSYSTEM
+then
+  [ "$(id -u)" = 0 ] && command -v apt-get >/dev/null || { echo "Missing graphics libraries; install libgl1 libopengl0 libegl1 in this runtime."; exit 1; }
+  apt-get update -qq
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -qq libgl1 libopengl0 libegl1
+fi
+
 # numpy 1.26 has no wheels for Python 3.13+, where numpy 2.2 is tested to work.
 "$PY" -c "import sys; print('numpy==1.26.4' if sys.version_info < (3, 13) else 'numpy<2.3')" > /tmp/hy3d/constraints.txt
 PIP="$PY -m pip install -q --root-user-action=ignore -c /tmp/hy3d/constraints.txt"
@@ -32,6 +52,20 @@ $PIP numpy \
   opencv-python==4.10.0.84 opencv-python-headless==4.10.0.84 scikit-image imageio \
   trimesh==4.4.7 "pymeshlab>=2022.2.post3" pygltflib==1.16.3 xatlas \
   rembg==2.0.65 onnxruntime timm torchdiffeq ninja pybind11 spandrel
+
+# Memory-map zip checkpoints so the single-GPU Colab loader can reclaim mapped pages.
+"$PY" - <<'PYLOAD'
+from pathlib import Path
+path = Path('hy3dshape/hy3dshape/pipelines.py')
+source = path.read_text()
+old = "ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=True)"
+new = "ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=True, mmap=zipfile.is_zipfile(ckpt_path))"
+if old in source:
+    source = source.replace('import torch\n', 'import torch\nimport zipfile\n', 1).replace(old, new)
+    path.write_text('# Private 3D Studio modification: memory-mapped checkpoint loading.\n' + source)
+elif new not in source:
+    raise RuntimeError('The expected shape checkpoint loader was not found.')
+PYLOAD
 
 # bpy (Blender) has no wheel for this Python and is only used by an OBJ->GLB helper we replace.
 # Mark modified vendor files while retaining their original headers.
@@ -110,5 +144,9 @@ if os.environ.get("BUILD_CUDA", "1") == "1":
     from textureGenPipeline import Hunyuan3DPaintPipeline
 from convert_utils import create_glb_with_pbr_materials
 import numpy
+import pymeshlab
+meshes = pymeshlab.MeshSet()
+assert hasattr(meshes, 'meshing_decimation_quadric_edge_collapse'), 'MeshLab geometry plugin is unavailable'
+assert hasattr(meshes, 'meshing_decimation_quadric_edge_collapse_with_texture'), 'MeshLab texture plugin is unavailable'
 print("Install OK (numpy %s)" % numpy.__version__)
 EOF

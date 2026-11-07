@@ -7,7 +7,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 count = 0
-for path in ROOT.glob('private_3d_*.ipynb'):
+notebooks = [path for path in ROOT.rglob('*.ipynb')
+             if not any(part.startswith('.') for part in path.relative_to(ROOT).parts)]
+assert notebooks == [ROOT/'private_3d_studio.ipynb'], 'Keep one canonical notebook: private_3d_studio.ipynb'
+for path in notebooks:
     nb = json.loads(path.read_text())
     assert nb['nbformat'] == 4
     for i, cell in enumerate(nb['cells']):

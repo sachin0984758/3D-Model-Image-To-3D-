@@ -1,4 +1,4 @@
-# Run workers/install.sh to preserve Kaggle's torch, apply compatibility fixes,
+# Run workers/install.sh to preserve the runtime's torch, apply compatibility fixes,
 # and compile CUDA/C++ extensions. Do not pip-install this file as a torch replacement.
 diffusers==0.30.0
 transformers==4.46.0

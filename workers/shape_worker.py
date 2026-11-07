@@ -30,8 +30,13 @@ def enqueue(job):
 import faulthandler
 faulthandler.dump_traceback_later(300, repeat=True)  # while loading: log the stack every 5 min, so a stall shows where
 t = time.time()
-pipe = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(
-    "tencent/Hunyuan3D-2.1", subfolder="hunyuan3d-dit-v2-1", use_safetensors=False, device="cuda")
+original_dtype = torch.get_default_dtype()
+try:
+    torch.set_default_dtype(torch.float16)
+    pipe = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(
+        "tencent/Hunyuan3D-2.1", subfolder="hunyuan3d-dit-v2-1", use_safetensors=False, device="cuda")
+finally:
+    torch.set_default_dtype(original_dtype)
 rembg = BackgroundRemover()
 face_reducer = FaceReducer()
 faulthandler.cancel_dump_traceback_later()
@@ -63,7 +68,7 @@ for item in cfg["images"]:
         t = time.time()
         torch.cuda.reset_peak_memory_stats()
         image = Image.open(item["path"])
-        if image.mode != "RGBA" or image.getchannel("A").getextrema() == (255, 255) or cfg["force_rembg"]:
+        if cfg.get("remove_background", True) and (image.mode != "RGBA" or image.getchannel("A").getextrema() == (255, 255) or cfg["force_rembg"]):
             image = rembg(image.convert("RGB"))
         image = center_image(image)
         image.save(os.path.join(out, "input.png"))

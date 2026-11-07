@@ -1,4 +1,47 @@
-# PRIVATE 3D STUDIO validation results
+# Private 3D Studio validation results
+
+## Single notebook for Kaggle and Colab, 2026-11-07
+
+The current project contains one application notebook, `private_3d_studio.ipynb`,
+named **Private 3D Studio**. Colab and Kaggle use the same embedded source. The
+separate weights-builder and developer validation notebooks, plus generated
+upstream notebook copies, were removed. The original source generator, copyright
+notices and saved GPU evidence remain.
+
+All **21 CPU tests passed with no skips**. The [current test log](tests/evidence/portable-tests-20261107.txt)
+records the complete suite. New synthetic fixtures cover single-GPU sequencing,
+parallel dual-GPU scheduling, reuse of older settings without duplicate model
+folders, separate geometry/textured buttons, presets, background-removal settings,
+Colab's native download helper, four mesh export formats and UV/PBR-preserving
+simplification. Textured OBJ bundles were checked for albedo, roughness and
+metallic files, their material assignments and PBR factors. Source meshes were
+unchanged by export.
+
+The actual notebook source-extraction, weights and studio cells were exercised
+with simulated Kaggle and Colab filesystem roots. Both selected the correct
+working paths, stopped an older studio before extraction and enabled textures.
+The Colab branch enabled its widget manager. These checks mocked downloads and
+GPU work. The memory-mapped checkpoint patch was checked against the pinned
+official loading method for syntax and repeatable setup.
+Setup also checks the graphics libraries and MeshLab filters needed for geometry
+and texture-preserving decimation. Missing graphics libraries are installed only
+when detected. The updated Linux installer still needs a live runtime check.
+
+The actual widget state was rendered in an isolated Chromium browser. The dark
+three-column layout and Export tab were inspected, including readable settings,
+an upload placeholder and a gallery of synthetic test thumbnails. No page errors
+occurred. Python widget callbacks were tested separately because a standalone
+widget-state preview has no live kernel.
+
+The embedded model-viewer loaded and displayed a synthetic PBR GLB in Chromium
+with software WebGL. Camera controls and Reset camera passed. No page errors or
+external HTTP requests occurred during that viewer check. This verifies preview
+rendering of a fixture, not the appearance of a generated Hunyuan model.
+
+**Live Colab GPU generation and the updated Kaggle workflow remain unverified.**
+The earlier real two-T4 results below predate the portable loader, interface and
+export changes. This session could not list or rename private Kaggle notebooks,
+so account-level duplicate cleanup has not been verified.
 
 ## Two-image Kaggle run, inspected 2026-11-07
 
@@ -15,7 +58,7 @@ Each model's file list includes `white_mesh.glb`, `textured_mesh.glb`, OBJ geome
 
 The extracted [saved run report](tests/evidence/studio_saved_run_report.json) includes the source notebook's SHA-256. The current project has later weight-staging, download, installation, retry and startup changes. The run used temporary weights and did not exercise those changes or establish that a private weights dataset was saved.
 
-## Changes checked locally on 2026-11-07
+## Earlier local changes before notebook consolidation
 
 - Downloads now use paths relative to the notebook working directory. Both the main and validation notebooks include a final download cell.
 - The installer fetches the tested runtime commit directly. Its earlier shallow clone followed the moving default branch before checking the pinned revision.
@@ -26,7 +69,7 @@ The extracted [saved run report](tests/evidence/studio_saved_run_report.json) in
 
 All **14 CPU tests passed with no skips**. Synthetic fixtures exercised both worker job loops without loading GPU models. The main notebook's actual weights cell also passed first-download, repeat-run cache reuse and attached-output staging checks using tiny synthetic checkpoint files. Local widget callbacks passed upload, quality-preset and ZIP export checks. The latest notebooks passed schema validation, cell compilation and embedded-source comparison.
 
-The latest fixes still require a Kaggle run. This Windows sandbox blocks Git Bash from starting, so the changed installer could not be executed locally. Browser rendering, model appearance and persistent-dataset reuse remain open.
+Those fixes still require a fresh Kaggle run. This Windows sandbox blocks Git Bash from starting, so the Linux installer could not be executed locally. The current interface has since received the browser checks above. Real model appearance and persistent-dataset reuse remain open.
 
 ## Earlier tests and scope
 

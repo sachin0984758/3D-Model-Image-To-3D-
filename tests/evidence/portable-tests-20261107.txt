@@ -1,0 +1,107 @@
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+No checksum manifest: basic file checks only.
+Fingerprinting checkpoint: RealESRGAN_x4plus.pth
+Fingerprinting checkpoint: u2net/u2net.onnx
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Fingerprinting checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Fingerprinting checkpoint: facebook/dinov2-giant/model.safetensors
+Verifying checkpoint: RealESRGAN_x4plus.pth
+Verifying checkpoint: u2net/u2net.onnx
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/config.yaml
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1/model.fp16.ckpt
+Verifying checkpoint: tencent/Hunyuan3D-2.1/hunyuan3d-paintpbr-v2-1/unet/diffusion_pytorch_model.bin
+Verifying checkpoint: facebook/dinov2-giant/model.safetensors
+test_all_geometry_export_formats_and_pbr_bundles (test_portable_studio.PortableStudioTests.test_all_geometry_export_formats_and_pbr_bundles) ... ok
+test_colab_download_uses_native_helper (test_portable_studio.PortableStudioTests.test_colab_download_uses_native_helper) ... ok
+test_dual_gpu_starts_paint_while_shape_worker_is_alive (test_portable_studio.PortableStudioTests.test_dual_gpu_starts_paint_while_shape_worker_is_alive) ... ok
+test_previous_job_settings_resume_without_duplicate_model_folder (test_portable_studio.PortableStudioTests.test_previous_job_settings_resume_without_duplicate_model_folder) ... ok
+test_simplification_retains_uvs_and_pbr_material (test_portable_studio.PortableStudioTests.test_simplification_retains_uvs_and_pbr_material) ... ok
+test_single_gpu_finishes_shape_before_loading_paint (test_portable_studio.PortableStudioTests.test_single_gpu_finishes_shape_before_loading_paint) ... ok
+test_widget_generation_controls_and_export_download (test_portable_studio.PortableStudioTests.test_widget_generation_controls_and_export_download) ... ok
+test_automatic_weights_download_then_cache_reuse (test_studio.StorageTests.test_automatic_weights_download_then_cache_reuse) ... ok
+test_concurrent_checkpoint_exports (test_studio.StorageTests.test_concurrent_checkpoint_exports) ... ok
+test_download_link_is_relative_to_notebook_directory (test_studio.StorageTests.test_download_link_is_relative_to_notebook_directory) ... ok
+test_glb_validation (test_studio.StorageTests.test_glb_validation) ... ok
+test_images (test_studio.StorageTests.test_images) ... ok
+test_incomplete_worker_exports_retry_and_completed_exports_resume (test_studio.StorageTests.test_incomplete_worker_exports_retry_and_completed_exports_resume)
+Exercise both real job loops with synthetic meshes and mocked model calls. ... ok
+test_independent_stage_records_and_checkpoint (test_studio.StorageTests.test_independent_stage_records_and_checkpoint) ... ok
+test_no_gpu_fails_without_launch (test_studio.StorageTests.test_no_gpu_fails_without_launch) ... ok
+test_pbr_validation (test_studio.StorageTests.test_pbr_validation) ... ok
+test_rejects_truncated_glb_without_model_dependencies (test_studio.StorageTests.test_rejects_truncated_glb_without_model_dependencies) ... ok
+test_staging_invalidates_changed_dataset (test_studio.StorageTests.test_staging_invalidates_changed_dataset) ... ok
+test_weights_integrity_and_detection (test_studio.StorageTests.test_weights_integrity_and_detection) ... ok
+test_weights_source_can_be_reused_in_place (test_studio.StorageTests.test_weights_source_can_be_reused_in_place) ... ok
+test_worker_inference_contract (test_studio.StorageTests.test_worker_inference_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 10.237s
+
+OK
