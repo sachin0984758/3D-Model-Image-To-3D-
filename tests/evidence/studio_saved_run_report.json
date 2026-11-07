@@ -1,0 +1,82 @@
+{
+  "notebook": "private-3d-studio-validation.ipynb",
+  "sha256": "4afdc49fa150e47772d82d5a038aebb3732ed6b3752db98ca71e6c9f39dd75ca",
+  "executed_code_cells": 8,
+  "last_reported_cpu_suite": {
+    "tests": 8,
+    "outcome": "OK"
+  },
+  "reported_models": [
+    {
+      "name": "model_001",
+      "input_filename": "004.png",
+      "shape_status": "completed",
+      "paint_status": "completed",
+      "reported_validated_geometry": true,
+      "reported_validated_pbr": true,
+      "shape": {
+        "stage": "shape",
+        "status": "completed",
+        "duration": 123.80554962158203,
+        "seed": 1234,
+        "peak_vram_gb": 7.627376079559326,
+        "validation": {
+          "bytes": 720936,
+          "faces": 40000,
+          "embedded_images": 0,
+          "pbr_verified": false
+        }
+      },
+      "paint": {
+        "stage": "paint",
+        "status": "completed",
+        "duration": 157.4095480442047,
+        "peak_vram_gb": 13.39841604232788,
+        "validation": {
+          "bytes": 4890088,
+          "faces": 40000,
+          "embedded_images": 2,
+          "pbr_verified": true
+        }
+      }
+    },
+    {
+      "name": "model_002",
+      "input_filename": "052.png",
+      "shape_status": "completed",
+      "paint_status": "completed",
+      "reported_validated_geometry": true,
+      "reported_validated_pbr": true,
+      "shape": {
+        "stage": "shape",
+        "status": "completed",
+        "duration": 141.5197787284851,
+        "seed": 1234,
+        "peak_vram_gb": 7.627376079559326,
+        "validation": {
+          "bytes": 720312,
+          "faces": 40000,
+          "embedded_images": 0,
+          "pbr_verified": false
+        }
+      },
+      "paint": {
+        "stage": "paint",
+        "status": "completed",
+        "duration": 164.28725671768188,
+        "peak_vram_gb": 12.315976619720459,
+        "validation": {
+          "bytes": 5660936,
+          "faces": 40000,
+          "embedded_images": 2,
+          "pbr_verified": true
+        }
+      }
+    }
+  ],
+  "execution_errors": [],
+  "reported_validated_geometry_count": 2,
+  "reported_validated_pbr_count": 2,
+  "observation_only_geometry_lines": [],
+  "limitation": "Saved-output analysis only. No GPU inference or independent GLB reload was performed by this reader. Missing output is unverified, not proof of failure. Inspect actual GLBs and the live UI separately."
+}

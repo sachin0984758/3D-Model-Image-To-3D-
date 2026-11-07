@@ -1,0 +1,15 @@
+{
+  "notebook": "notebook119ac17fc7.ipynb",
+  "sha256": "895e3b03f39813227e31b6fb2a5043b05e17ac62e3bad25bedf54415baeab21e",
+  "executed_code_cells": 6,
+  "last_reported_cpu_suite": null,
+  "reported_models": [],
+  "execution_errors": [],
+  "reported_validated_geometry_count": 0,
+  "reported_validated_pbr_count": 0,
+  "observation_only_geometry_lines": [
+    "[shape 10:02:42] official_004: 40000 faces in 124s (peak VRAM 7.6 GB)",
+    "[shape 10:02:42] official_004: 40000 faces in 124s (peak VRAM 7.6 GB)"
+  ],
+  "limitation": "Saved-output analysis only. No GPU inference or independent GLB reload was performed by this reader. Missing output is unverified, not proof of failure. Inspect actual GLBs and the live UI separately."
+}
